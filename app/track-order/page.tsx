@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -38,7 +38,7 @@ const statusLabels = {
   cancelled: 'ملغى',
 }
 
-export default function TrackOrderPage() {
+function TrackOrderContent() {
   const searchParams = useSearchParams()
   const orderId = searchParams.get('orderId')
   const [order, setOrder] = useState<any>(null)
@@ -376,5 +376,13 @@ export default function TrackOrderPage() {
         </div>
       </main>
     </>
+  )
+}
+
+export default function TrackOrderPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TrackOrderContent />
+    </Suspense>
   )
 }
